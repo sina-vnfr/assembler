@@ -4,14 +4,11 @@
  * and open the template in the editor.
  */
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,6 +25,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class FXMLController implements Initializable {
 
+    File fileToSave;
   
    @FXML
    private Label output;
@@ -52,24 +50,16 @@ public class FXMLController implements Initializable {
         chooser.setFileFilter(filter);
        
         int returnVal = chooser.showOpenDialog(null);
-         File fileToSave = chooser.getSelectedFile();
-         //String fileToSave = chooser.getSelectedFile().getAbsolutePath();
-        // System.out.println(fileToSave);
-
-        
-//         long lines = 0;
-//      try (BufferedReader reader = new BufferedReader(new FileReader(fileToSave))) {
-//          while (reader.readLine() != null) lines++;
-//      } catch (IOException e) {
-//          e.printStackTrace();
-//      }
-//      System.out.println(lines);
-        assemble as = new assemble(fileToSave);
-        as.assembleCode();
+        fileToSave = chooser.getSelectedFile();
+        input.setText(fileToSave.getName());
+       
     }
 
     @FXML
-    private void btnGenerate(ActionEvent event) {
+    private void btnGenerate(ActionEvent event) throws IOException {
+         assemble as = new assemble(fileToSave);
+         as.assembleCode();
+         output.setText(fileToSave.getName()+".out.txt");
     }
     
 }
